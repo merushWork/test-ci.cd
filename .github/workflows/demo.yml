@@ -1,0 +1,8 @@
+name: Demo Workflow
+on: workflow_dispatch # "workflow_dispatch" - означає, що запуск буде відбуватись не автоматично при пуше змін, а вручную
+jobs:
+  print: # це просто назва джоби
+    runs-on: ubuntu-latest # на якій платформі все буде працювати
+    steps:
+      - name: Print to console
+        run: echo Hello world!
