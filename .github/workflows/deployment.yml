@@ -1,5 +1,10 @@
 name: Test React App
-on: workflow_dispatch # Реагує на зміни, які ми заливаємо у репозиторій
+on:
+  workflow_dispatch: # Реагує на зміни, які ми заливаємо у репозиторій
+  push: # запускаємо процесс тоді, коли відбувся "push" в якусь спицифічну гілку чи гілки
+    branches:
+      - 'master'
+      - 'release/**'
 jobs:
   test_app:
     runs-on: ubuntu-latest
