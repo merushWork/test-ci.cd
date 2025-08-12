@@ -1,0 +1,34 @@
+name: Test React App
+on: push # Реагує на зміни, які ми заливаємо у репозиторій
+jobs:
+  test_app:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get access to the repository code
+        uses: actions/checkout@v4 # на пряму github немає доступу до нашого репозиторію. Тому ми використовуємо стороній action
+      - name: Install deps
+        run: npm ci
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps # Залежність для storybook
+      - name: Test app
+        run: npm run test
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get access to the repository code
+        uses: actions/checkout@v4
+      - name: Install deps
+        run: npm ci
+      - name: Lint app
+        run: npm run lint
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get access to the repository code
+        uses: actions/checkout@v4
+      - name: Install deps
+        run: npm ci
+      - name: Build app
+        run: npm run build
+      - name: Deploy
+        run: echo Deploying ...
