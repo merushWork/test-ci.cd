@@ -1,5 +1,5 @@
 name: Test React App
-on: push # Реагує на зміни, які ми заливаємо у репозиторій
+on: workflow_dispatch # Реагує на зміни, які ми заливаємо у репозиторій
 jobs:
   test_app:
     runs-on: ubuntu-latest
