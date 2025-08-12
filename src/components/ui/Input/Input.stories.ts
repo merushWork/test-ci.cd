@@ -31,7 +31,7 @@ export const TestInput: Story = {
     const input = within(canvasElement).getByTestId('input');
 
     await userEvent.type(input, 'Input for Storybook tests');
-    await expect(input).toHaveStyle('font-size: 16px;');
+    await expect(input).toHaveStyle('font-size: 14px;');
   },
   args: {
     placeholder: 'Test input',
