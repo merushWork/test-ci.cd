@@ -1,16 +1,23 @@
 name: Test React App
 on:
-  workflow_dispatch: # Реагує на зміни, які ми заливаємо у репозиторій
-  push: # запускаємо процесс тоді, коли відбувся "push" в якусь спицифічну гілку чи гілки
+  workflow_dispatch: # Workflow не реагує на зміни, нам необхідно в ручную в github запускати процесс
+  push: # запускаємо workflow тоді, коли відбувся "push" в якусь спицифічну гілку чи гілки
     branches:
       - 'master'
       - 'release/**'
+    paths-ignore: # workflow не стартане якщо всі файли чи файл має/ть співпадіння із наведеним шаблоном/и
+      - 'src/lib/**'
 jobs:
   test_app:
     runs-on: ubuntu-latest
     steps:
       - name: Get access to the repository code
         uses: actions/checkout@v4 # на пряму github немає доступу до нашого репозиторію. Тому ми використовуємо стороній action
+      - name: Cache deps
+        uses: actions/cache@v4 # кешування наших залежностей, папок, файлів та іншого. Це суттєво пришвидшує роботу workflow
+        with:
+          key: ~/.npm # куди буде складатись кеш
+          path: modules-${{ hashFiles('**/package-lock.json') }} # унікальний динамічний ключ, або просто строка (не рекомендається). Функція hashFiles('**/package-lock.json') дозволяє дивитись на зміни в файлі package-lock.json
       - name: Install deps
         run: npm ci
       - name: Install Playwright browsers
@@ -23,6 +30,11 @@ jobs:
     steps:
       - name: Get access to the repository code
         uses: actions/checkout@v4
+      - name: Cache deps
+        uses: actions/cache@v4
+        with:
+          key: ~/.npm
+          path: modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install deps
         run: npm ci
       - name: Lint app
@@ -33,6 +45,11 @@ jobs:
     steps:
       - name: Get access to the repository code
         uses: actions/checkout@v4
+      - name: Cache deps
+        uses: actions/cache@v4
+        with:
+          key: ~/.npm
+          path: modules-${{ hashFiles('**/package-lock.json') }}
       - name: Install deps
         run: npm ci
       - name: Build app
