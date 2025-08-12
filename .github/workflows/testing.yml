@@ -8,5 +8,7 @@ jobs:
         uses: actions/checkout@v4 # на пряму github немає доступу до нашого репозиторію. Тому ми використовуємо стороній action
       - name: Install deps
         run: npm ci
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
       - name: Test app
         run: npm run test
