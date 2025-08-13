@@ -1,12 +1,12 @@
 name: Test React App
 on:
   workflow_dispatch: # Workflow не реагує на зміни, нам необхідно в ручную в github запускати процесс
-  push: # запускаємо workflow тоді, коли відбувся "push" в якусь спицифічну гілку чи гілки
-    branches:
-      - 'master'
-      - 'release/**'
-    paths-ignore: # workflow не стартане якщо всі файли чи файл має/ть співпадіння із наведеним шаблоном/и
-      - 'src/lib/**'
+#  push: # запускаємо workflow тоді, коли відбувся "push" в якусь спицифічну гілку чи гілки
+#    branches:
+#      - 'master'
+#      - 'release/**'
+#    paths-ignore: # workflow не стартане якщо всі файли чи файл має/ть співпадіння із наведеним шаблоном/и
+#      - 'src/lib/**'
 jobs:
 #  test_app:
 #    runs-on: ubuntu-latest
