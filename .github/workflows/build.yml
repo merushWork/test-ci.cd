@@ -1,13 +1,15 @@
 name: Artifacts, environment and secrets (build and deploy)
 on: [push, workflow_dispatch]
 env: # тут ми задаємо глобальні зміні середовища
-  GH_SECRET: 42
+  GB_SECRET: ${{ secrets.GB_SECRETS }}
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Print env var
-        run: echo "${{ env.GH_SECRET }}"
+        run: |
+          echo "${{ env.NOT_SECRET }}"
+          echo "${{ env.GB_SECRET }}"
       - name: Get code
         uses: actions/checkout@v4
       - name: Install deps
