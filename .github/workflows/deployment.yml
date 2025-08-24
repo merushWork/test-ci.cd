@@ -12,12 +12,16 @@ jobs:
 #    runs-on: ubuntu-latest
 #    steps:
 #      - name: Get access to the repository code
-#        uses: actions/checkout@v4 # на пряму github немає доступу до нашого репозиторію. Тому ми використовуємо стороній action
+#        uses: actions/checkout@v4 # на пряму github немає доступу до нашого репозиторію.
+#                                  # Тому ми використовуємо стороній action
 #      - name: Cache deps
 #        uses: actions/cache@v4 # кешування наших залежностей, папок, файлів та іншого. Це суттєво пришвидшує роботу workflow
 #        with:
 #          path: ~/.npm # куди буде складатись кеш
-#          key: modules-${{ hashFiles('**/package-lock.json') }} # унікальний динамічний ключ, або просто строка (не рекомендається). Функція hashFiles('**/package-lock.json') дозволяє дивитись на зміни в файлі package-lock.json
+#          key: modules-${{ hashFiles('**/package-lock.json') }} # унікальний динамічний ключ,
+#                                                                # або просто строка (не рекомендається).
+#                                                                # Функція hashFiles('**/package-lock.json')
+#                                                                # дозволяє дивитись на зміни в файлі package-lock.json
 #      - name: Install deps
 #        run: npm ci
 #      - name: Install Playwright browsers
@@ -39,11 +43,21 @@ jobs:
       - name: Lint app
         run: npm run lint
   build:
-    runs-on: ubuntu-latest
-    needs: lint # цей параметр пвідомляє, що "build" буде запущений після джоби "lint". Можна додавати декілько джоб у залежність одразу, наприклад: [lint, test]
+    needs: lint # цей параметр пвідомляє, що "build" буде запущений після джоби "lint".
+                #Можна додавати декілько джоб у залежність одразу, наприклад: [lint, test]
+    strategy: # ми можемо протестувати наш білд на різних версія ноди, наприклад
+      matrix: # ... для цього можна використати матриці
+        node-version: [14, 16]
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }} # ми не використовуємо якесь одне значння з масива "os" нашої матриці.
+                              # Всі значення, які присутні в масиві будуть використані по черзі
     steps:
       - name: Get access to the repository code
         uses: actions/checkout@v4
+      - name: Install NodeJs
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
       - name: Cache deps
         uses: actions/cache@v4
         with:
@@ -53,5 +67,5 @@ jobs:
         run: npm ci
       - name: Build app
         run: npm run build
-      - name: Deploy
+      - name: Deployo
         run: echo Deploying ...
