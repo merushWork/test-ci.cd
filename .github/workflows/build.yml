@@ -1,7 +1,8 @@
 name: Artifacts, environment and secrets (build and deploy)
 on: [push, workflow_dispatch]
 env: # тут ми задаємо глобальні зміні середовища
-  GB_SECRET: ${{ secrets.GB_SECRETS }}
+  GB_SECRET: ${{ secrets.GB_SECRET }}
+  NOT_SECRET: 42
 jobs:
   build:
     runs-on: ubuntu-latest
