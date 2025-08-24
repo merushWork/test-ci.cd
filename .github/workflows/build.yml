@@ -20,6 +20,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get build project (Download artifact)
-        uses: ctions/download-artifact@v5
+        uses: actions/download-artifact@v5
         with:
           name: build-files
