@@ -1,16 +1,14 @@
 name: Artifacts, environment and secrets (build and deploy)
 on: [push, workflow_dispatch]
-env: # тут ми задаємо зміні середовища
-  NODE_ENV: production
+env: # тут ми задаємо глобальні зміні середовища
+  NODE_ENV: production # зміна із значенням production поломає workflow, якщо задати її глобально на найвищому рівні
   GH_SECRET: 42
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Print env vars
-        run: |
-          echo "${{ env.NODE_ENV }}"
-          echo "${{ env.GH_SECRET }}"
+      - name: Print env var
+        run: echo "${{ env.GH_SECRET }}"
       - name: Get code
         uses: actions/checkout@v4
       - name: Install deps
@@ -25,7 +23,13 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    env: # тут ми задаємо локальні зміні середовища
+      NODE_ENV: production # зміна із значенням production поламає workflow,
+                          # якщо задати її глобально на найвищому рівні тому, що
+                          # "production" не запускає інсталяцію devDependencies
     steps:
+      - name: Print env vars
+        run: echo "${{ env.NODE_ENV }}"
       - name: Get build project (Download artifact)
         uses: actions/download-artifact@v5 # додаємо можливість побачити та завантажити наш артифакт
         with:
