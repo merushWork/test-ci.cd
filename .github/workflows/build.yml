@@ -1,7 +1,6 @@
 name: Artifacts, environment and secrets (build and deploy)
 on: [push, workflow_dispatch]
 env: # тут ми задаємо глобальні зміні середовища
-  NODE_ENV: production # зміна із значенням production поломає workflow, якщо задати її глобально на найвищому рівні
   GH_SECRET: 42
 jobs:
   build:
