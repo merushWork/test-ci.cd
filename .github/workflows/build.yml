@@ -47,19 +47,12 @@ jobs:
         with:
           name: build-files
           path: ./dist # Завантажуємо артефакт в теку dist
-      - name: Verify Vercel Secrets
+      - name: 'Debug: Display partial IDs'
         run: |
-          echo "VERCEL_ORG_ID being used: ${{ secrets.VERCEL_ORG_ID }}"
-          if [ -n "${{ secrets.VERCEL_PROJECT_ID }}" ]; then
-            echo "VERCEL_PROJECT_ID is set."
-          else
-            echo "VERCEL_PROJECT_ID is NOT set."
-          fi
-          if [ -n "${{ secrets.VERCEL_TOKEN }}" ]; then
-            echo "VERCEL_TOKEN is set."
-          else
-            echo "VERCEL_TOKEN is NOT set."
-          fi
+          ORG_ID_VAL="${{ secrets.VERCEL_ORG_ID }}"
+          PRJ_ID_VAL="${{ secrets.VERCEL_PROJECT_ID }}"
+          echo "VERCEL_ORG_ID starts with: '${ORG_ID_VAL:0:5}' and ends with: '${ORG_ID_VAL: -5}'"
+          echo "VERCEL_PROJECT_ID starts with: '${PRJ_ID_VAL:0:5}' and ends with: '${PRJ_ID_VAL: -5}'"
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25 # Використовуємо екшен для деплою
         with:
