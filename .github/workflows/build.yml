@@ -13,10 +13,6 @@ jobs:
           echo "${{ env.GB_SECRET }}"
       - name: Get code
         uses: actions/checkout@v4
-      - name: Install Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
       - name: Install deps
         run: npm ci
       - name: Build project
@@ -44,6 +40,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Get code
+        uses: actions/checkout@v4
       - name: Get build project (Download artifact)
         uses: actions/download-artifact@v4
         with:
@@ -57,5 +55,4 @@ jobs:
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-args: '--prod' # Додаємо прапорець для деплою в production
-          working-directory: ./dist # Вказуємо робочу директорію
 
