@@ -36,3 +36,22 @@ jobs:
         uses: actions/download-artifact@v5 # додаємо можливість побачити та завантажити наш артифакт
         with:
           name: build-files # назва артифакту, з яким необхідно працювати
+  deploy-vercel:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get build project (Download artifact)
+        uses: actions/download-artifact@v4
+        with:
+          name: build-files
+          path: ./dist # Завантажуємо артефакт в теку dist
+
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25 # Використовуємо екшен для деплою
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod' # Додаємо прапорець для деплою в production
+          working-directory: ./dist # Вказуємо робочу директорію
+
