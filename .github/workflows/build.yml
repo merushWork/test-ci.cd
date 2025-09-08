@@ -13,6 +13,10 @@ jobs:
           echo "${{ env.GB_SECRET }}"
       - name: Get code
         uses: actions/checkout@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
       - name: Install deps
         run: npm ci
       - name: Build project
