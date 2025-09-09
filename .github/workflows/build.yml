@@ -22,20 +22,20 @@ jobs:
         with:
           name: build-files # назва артифакту
           path: dist # бере теку dist (для майбутнього артифакту), яка створюється після команди build
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    env: # тут ми задаємо локальні зміні середовища
-      NODE_ENV: production # зміна із значенням production поламає workflow,
-                          # якщо задати її глобально на найвищому рівні тому, що
-                          # "production" не запускає інсталяцію devDependencies
-    steps:
-      - name: Print env vars
-        run: echo "${{ env.NODE_ENV }}"
-      - name: Get build project (Download artifact)
-        uses: actions/download-artifact@v5 # додаємо можливість побачити та завантажити наш артифакт
-        with:
-          name: build-files # назва артифакту, з яким необхідно працювати
+#  deploy:
+#    needs: build
+#    runs-on: ubuntu-latest
+#    env: # тут ми задаємо локальні зміні середовища
+#      NODE_ENV: production # зміна із значенням production поламає workflow,
+#                          # якщо задати її глобально на найвищому рівні тому, що
+#                          # "production" не запускає інсталяцію devDependencies
+#    steps:
+#      - name: Print env vars
+#        run: echo "${{ env.NODE_ENV }}"
+#      - name: Get build project (Download artifact)
+#        uses: actions/download-artifact@v5 # додаємо можливість побачити та завантажити наш артифакт
+#        with:
+#          name: build-files # назва артифакту, з яким необхідно працювати
   deploy-vercel:
     needs: build
     runs-on: ubuntu-latest
